@@ -61,7 +61,7 @@ var memoApp = new Vue({
             if (interval > 1) {
                 return interval + "분 전";
             }
-            return Math.floor(seconds) + "초 전";
+            return "방금 전";
         },
         convertTime: function(time) {
             return `${time.getFullYear()} / ${time.getMonth()+1} / ${time.getDate()}  ${time.getHours()}시 ${time.getMinutes()}분 ${time.getSeconds()}초`
