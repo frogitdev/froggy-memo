@@ -1,0 +1,34 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">   
+    <meta name="author" content="FrogIT">
+    <meta name="description" content="Froggy Memo Experimental">
+    <meta property="og:description" content="Froggy Memo Experimental">
+    <meta property="og:title" content="Froggy Memo">
+    <title>Froggy Memo</title>
+    <link rel="stylesheet" href="/src/style.css">
+    <script defer src="https://unpkg.com/vue@2.6.10/dist/vue.min.js"></script>
+    <!-- <script defer src="https://unpkg.com/vue@2.6.10/dist/vue.js"></script> -->
+    <script defer src="/src/main.js"></script>
+</head>
+<body>
+    <main>
+        <p v-if="edit">수정 중 . .</p>
+        <input id="title-field" type="text" v-if="titleField!='' || textField!=''" v-model="titleField" placeholder="제목">
+        <textarea id="text-field" v-model="textField" :rows="rows" placeholder="새로운 메모 . ."></textarea>
+        <input type="submit" @click="addItem()" value="+">
+        <div id="memo-list">
+            <memo-item class="memo-item" v-for="item in items" :key="item.id" :id="item.id" :title="item.title" :text="item.text" :timesince="getTimesince(item.time)" :timefull="convertTime(item.time)" @edit="editItem(item)" @remove="removeItem(item)"></memo-item>
+        </div>
+    </main>
+    <div id="credit">
+        <span style="color: red">경고! 시험용 버전으로, 메모가 저장되지 않습니다</span><br>
+        <a href="">GitHub Repository</a><br>
+        <b>Froggy Memo</b> Experimental 190501-01<br>
+        (C) <a href="http://frogit.xyz">FrogIT</a>. Licensed under the MIT License<br>
+    </div>
+</body>
+</html>
