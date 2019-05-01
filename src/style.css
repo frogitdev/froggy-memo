@@ -61,7 +61,7 @@ main {
     border: 1px solid lightgray;
 }
 
-.memo-item:hover .tooltiptext {
+.memo-item:hover .tooltiptext, .memo-item:active .tooltiptext {
     visibility: visible;
 }
 
