@@ -5,7 +5,7 @@ var memoApp = new Vue({
         textField: '',
         items: [{id:0, text:'TIP - 상단의 입력 상자를 이용해 메모를 생성하세요.\n메모 위에 마우스를 올려 수정 또는 삭제할 수 있습니다.', time:new Date(2019, 0, 1, 0, 0, 0)}],
         nextItemNum: 1,
-        rows: 1,
+        rows: 2,
         edit: ''
     },
     methods: {
@@ -70,7 +70,7 @@ var memoApp = new Vue({
     watch: {
         textField: function() {
             if (this.textField == '') {
-                this.rows = 1
+                this.rows = 2
             }
             else {
                 this.rows = 8

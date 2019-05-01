@@ -27,15 +27,12 @@ body {
     color: white;
 }
 
-pre {
-    white-space: pre-wrap;
-}
-
 main {
     margin: 36px 0;
     padding: 36px;
     min-width: 300px;
     width: 50vw;
+    position: relative;
     
     background-color: white;
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
@@ -51,6 +48,11 @@ main {
 #text-field {
     resize: none;
     width: 95%;
+    font-size: 18px;
+}
+
+#memo-list {
+    margin-bottom: 100px;
 }
 
 .memo-item {
@@ -58,7 +60,14 @@ main {
     margin: 10px;
     padding: 10px;
     min-width: 100px;
+    max-width: 100%;
     border: 1px solid lightgray;
+    word-wrap: break-word;
+}
+
+.memo-item pre {
+    white-space: pre-line;
+    font-size: 18px;
 }
 
 .memo-item:hover .tooltiptext, .memo-item:focus .tooltiptext {
@@ -72,13 +81,16 @@ main {
 }
 
 #credit {
-    position: fixed;
+    position: absolute;
     right: 0;
     bottom: 0;
-    background-color: rgba(0,0,0,0.5);
+    margin: 20px;
+    padding: 10px;
+    height: 76px;
 
+    text-align: right;
     font-size: 14px;
-    color: white;
+    color: darkslategray;
 }
 #credit a {
     color: lightcoral;
