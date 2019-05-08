@@ -1,4 +1,4 @@
-# Froggy Memo
+# FroggyMemo
 [바로가기](http://memoapp.frogit.xyz)
 
 ## 설명
