@@ -7,24 +7,39 @@ body {
     justify-content: center;
     
     background-color: #FAACA8;
-    background-image: linear-gradient(19deg, #FAACA8 0%, #DDD6F3 100%);
+    background: linear-gradient(0deg, #FAACA8 0%, #DDD6F3 100%);
+    background-attachment: fixed;
+    
+    font-family: "Noto Sans KR", sans-serif;
 }
 
 .tooltiptext {
     position: absolute;
     z-index: 1;
     visibility: hidden;
-    width: 300px;
     border: 1px solid lightgray;
     background-color: white;
     text-align: center;
-    padding: 5px 0;
+    padding: 10px;
 }
 
 .link {
     cursor: pointer;
     background-color: black;
     color: white;
+}
+
+textarea:focus, input:focus {
+    outline: none;
+
+}
+
+.btn {
+    padding: 10px;
+    border: none;
+    border-left: 5px solid lightgray;
+    font-size: 1em;
+    cursor: pointer;
 }
 
 main {
@@ -39,16 +54,36 @@ main {
     border-radius: 10px;
 }
 
+#header {
+    margin: 10px;
+    font-size: 18px;
+}
+
+#title-field, #text-field {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    
+    border: none;
+    border-left: 5px solid lightgray;
+    
+    transition: border 0.5s;
+}
+
+#title-field:focus, #text-field:focus {
+    border-left: 5px solid gray;
+}
+
 #title-field {
-    display: block;
-    width: 95%;
-    font-size: 24px;
+    font-size: 1.5em;
 }
 
 #text-field {
     resize: none;
-    width: 95%;
-    font-size: 18px;
+    font-size: 1em;
+    font-family: inherit;
+    
+    transition: all 1s;
 }
 
 #memo-list {
@@ -57,27 +92,25 @@ main {
 
 .memo-item {
     display: inline-block;
-    margin: 10px;
+    margin: 10px;    
     padding: 10px;
     min-width: 100px;
     max-width: 100%;
     border: 1px solid lightgray;
     word-wrap: break-word;
+    
+    transition: all 1s;
 }
 
 .memo-item pre {
     white-space: pre-line;
     font-size: 18px;
+    font-family: inherit;
+    font-weight: lighter;
 }
 
 .memo-item:hover .tooltiptext, .memo-item:focus .tooltiptext {
     visibility: visible;
-}
-
-@media screen and (max-width: 700px) {
-    main {
-        width: 100%;
-    }
 }
 
 #credit {
@@ -94,4 +127,23 @@ main {
 }
 #credit a {
     color: lightcoral;
+}
+
+@media screen and (max-width: 700px) {
+    main {
+        width: 100%;
+    }
+    
+    #header, .memo-item {
+        margin: 5px;
+    }
+}
+
+.memo-list-enter, .memo-list-leave-to {
+    opacity: 0;
+    transform: translateY(-30px);
+}
+
+.memo-list-leave-active {
+    position: absolute;
 }

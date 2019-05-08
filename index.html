@@ -10,24 +10,33 @@
     <meta property="og:title" content="Froggy Memo">
     <title>Froggy Memo</title>
     <link rel="stylesheet" href="./src/style.css">
-    <script defer src="https://unpkg.com/vue@2.6.10/dist/vue.min.js"></script>
-    <!-- <script defer src="https://unpkg.com/vue@2.6.10/dist/vue.js"></script> -->
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,400" rel="stylesheet">
+   <!-- <script defer src="https://unpkg.com/vue@2.6.10/dist/vue.min.js"></script> -->
+    <script defer src="https://unpkg.com/vue@2.6.10/dist/vue.js"></script> 
     <script defer src="./src/main.js"></script>
 </head>
 <body>
     <main>
-        <p v-if="edit">수정 중 . .</p>
-        <input id="title-field" type="text" v-if="titleField!='' || textField!=''" v-model="titleField" placeholder="제목">
-        <textarea id="text-field" v-model="textField" :rows="rows" placeholder="새로운 메모 . ."></textarea>
-        <input type="submit" @click="addItem()" value="+">
+        <div id="header">
+            <input id="title-field" type="text" v-if="titleField!='' || textField!=''" v-model="titleField" placeholder="제목">
+            <transition name="text-field">
+            <textarea id="text-field" v-model="textField" :style="style.textField" placeholder="새로운 메모 . ."></textarea>
+            </transition>
+            <div id="btn-area" :style="style.btnArea">
+                <input class="btn" type="submit" @click="addItem()" :value="btnArea">
+                <input class="btn" type="button" @click="cancelItem()" value="취소">
+            </div>
+        </div>
         <div id="memo-list">
-            <memo-item class="memo-item" v-for="item in items" :key="item.id" :id="item.id" :title="item.title" :text="item.text" :timesince="getTimesince(item.time)" :timefull="convertTime(item.time)" @edit="editItem(item)" @remove="removeItem(item)"></memo-item>
+            <transition-group name="memo-list" tag="div">
+                <memo-item class="memo-item" v-for="item in items" :key="item.id" :id="item.id" :title="item.title" :text="item.text" :timesince="getTimesince(item.time)" :timefull="convertTime(item.time)" @edit="editItem(item)" @remove="removeItem(item)"></memo-item>
+            </transition-group>
         </div>
         <div id="credit">
             <span style="color: red">경고! 시험용 버전으로, 메모가 저장되지 않습니다</span><br>
-            <a href="https://github.com/frogitdev/froggy-memo">GitHub Repository</a><br>
-            <b>Froggy Memo</b> Experimental 190501-02<br>
-            (C) <a href="http://frogit.xyz">FrogIT</a>. Licensed under the MIT License<br>
+            <a href="https://github.com/frogitdev/froggy-memo" target="_blank">GitHub Repository</a><br>
+            <b>Froggy Memo</b> Experimental 190508-01<br>
+            (C) <a href="http://frogit.xyz" target="_blank">FrogIT</a>. Licensed under the MIT License<br>
         </div>
     </main>
 </body>
