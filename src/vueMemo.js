@@ -12,7 +12,7 @@ const vueMemoContent = {
                 display: 'none'
             },
             textField: {
-                height: '3em'
+                height: '50px'
             }
         }
     },
@@ -101,11 +101,11 @@ const vueMemoContent = {
         },
         textField: function() {
             if (this.textField == '') {
-                this.style.textField.height = '3em'
+                this.style.textField.height = '50px'
                 this.style.btnArea.display = 'none'
             }
             else {
-                this.style.textField.height = '12em'
+                this.style.textField.height = '300px'
                 this.style.btnArea.display = 'inline-block'
             }
         },

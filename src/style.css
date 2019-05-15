@@ -14,9 +14,9 @@ body {
 }
 
 .tooltiptext {
+    display: none;
     position: absolute;
     z-index: 1;
-    visibility: hidden;
     border: 1px solid lightgray;
     background-color: white;
     text-align: center;
@@ -45,7 +45,7 @@ textarea:focus, input:focus {
 main {
     margin: 36px 0;
     padding: 36px;
-    min-width: 300px;
+    min-width: 250px;
     width: 50vw;
     position: relative;
     
@@ -60,13 +60,14 @@ main {
 }
 
 #title-field, #text-field {
+    box-sizing: border-box;
     width: 100%;
     margin: 10px 0;
     padding: 10px;
-    
     border: none;
     border-left: 5px solid lightgray;
-    
+    border-radius: 0;
+
     transition: border 0.5s;
 }
 
@@ -109,8 +110,8 @@ main {
     font-weight: lighter;
 }
 
-.memo-item:hover .tooltiptext, .memo-item:focus .tooltiptext {
-    visibility: visible;
+.memo-item:hover .tooltiptext {
+    display: block;
 }
 
 #credit {
@@ -132,6 +133,7 @@ main {
 @media screen and (max-width: 700px) {
     main {
         width: 100%;
+        padding: 18px;
     }
     
     #header, .memo-item {
