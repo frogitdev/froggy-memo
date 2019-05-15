@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -15,6 +16,9 @@
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,400" rel="stylesheet">
     <script defer src="https://unpkg.com/vue@2.6.10/dist/vue.min.js"></script>
     <!-- <script defer src="https://unpkg.com/vue@2.6.10/dist/vue.js"></script>  -->
+    <script defer src="./src/initDB.js"></script>
+    <script defer src="./src/controlDB.js"></script>
+    <script defer src="./src/vueMemo.js"></script>
     <script defer src="./src/main.js"></script>
 </head>
 <body>
@@ -26,18 +30,17 @@
             </transition>
             <div id="btn-area" :style="style.btnArea">
                 <input class="btn" type="submit" @click="addItem()" :value="btnArea">
-                <input class="btn" type="button" @click="cancelItem()" value="취소">
+                <input class="btn" type="button" @click="resetField()" value="취소">
             </div>
         </div>
         <div id="memo-list">
             <transition-group name="memo-list" tag="div">
-                <memo-item class="memo-item" v-for="item in items" :key="item.id" :id="item.id" :title="item.title" :text="item.text" :timesince="getTimesince(item.time)" :timefull="convertTime(item.time)" @edit="editItem(item)" @remove="removeItem(item)"></memo-item>
+                <memo-item class="memo-item" v-for="item in items" :key="item.id" :id="item.id" :title="item.title" :text="item.text" :timesince="getTimesince(item.time)" :timefull="convertTime(item.time)" @edit="editItem(item)" @remove="removeItem(item.id)"></memo-item>
             </transition-group>
         </div>
         <div id="credit">
-            <span style="color: red">경고! 시험용 버전으로, 메모가 저장되지 않습니다</span><br>
             <a href="https://github.com/frogitdev/froggy-memo" target="_blank">GitHub Repository</a><br>
-            <b>FroggyMemo</b> Experimental 190509-01<br>
+            <b>FroggyMemo</b> BETA 0.1.0<br>
             (C) <a href="http://frogit.xyz" target="_blank">FrogIT</a>. Licensed under the MIT License<br>
         </div>
     </main>
