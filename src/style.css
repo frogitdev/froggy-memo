@@ -9,6 +9,8 @@ body {
     background-color: #FAACA8;
     background: linear-gradient(0deg, #FAACA8 0%, #DDD6F3 100%);
     background-attachment: fixed;
+
+    transform: translate3d(0, 0, 0);
     
     font-family: "Noto Sans KR", sans-serif;
 }
@@ -31,7 +33,6 @@ body {
 
 textarea:focus, input:focus {
     outline: none;
-
 }
 
 .btn {
