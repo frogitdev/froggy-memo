@@ -8,6 +8,9 @@ const vueMemoContent = {
         textField: '',
         btnArea: '생성',
         style: {
+            iconArea: {
+                display: 'flex'
+            },
             btnArea: {
                 display: 'none'
             },
@@ -66,30 +69,30 @@ const vueMemoContent = {
         getTimesince: function(date) {
             var seconds = Math.floor((new Date() - date) / 1000);
             var interval = Math.floor(seconds / 31536000);
-            if (interval > 1) {
+            if (interval >= 1) {
                 return interval + "년 전";
             }
             interval = Math.floor(seconds / 2592000);
-            if (interval > 1) {
+            if (interval >= 1) {
                 return interval + "개월 전";
             }
             interval = Math.floor(seconds / 86400);
-            if (interval > 1) {
+            if (interval >= 1) {
                 return interval + "일 전";
             }
             interval = Math.floor(seconds / 3600);
-            if (interval > 1) {
+            if (interval >= 1) {
                 return interval + "시간 전";
             }
             interval = Math.floor(seconds / 60);
-            if (interval > 1) {
+            if (interval >= 1) {
                 return interval + "분 전";
             }
             return "방금 전";
         },
         convertTime: function(time) {
-            return `${time.getFullYear()} / ${time.getMonth()+1} / ${time.getDate()}  ${time.getHours()}시 ${time.getMinutes()}분 ${time.getSeconds()}초`
-        }
+            return `${time.getFullYear()} / ${time.getMonth()+1} / ${time.getDate()} ${time.getHours()}시 ${time.getMinutes()}분 ${time.getSeconds()}초`
+        },
     },
     watch: {
         items: function() {
@@ -101,12 +104,14 @@ const vueMemoContent = {
         },
         textField: function() {
             if (this.textField == '') {
-                this.style.textField.height = '50px'
+                this.style.iconArea.display = 'flex'
                 this.style.btnArea.display = 'none'
+                this.style.textField.height = '50px'
             }
             else {
-                this.style.textField.height = '300px'
+                this.style.iconArea.display = 'none'
                 this.style.btnArea.display = 'inline-block'
+                this.style.textField.height = '300px'
             }
         },
         edit: function() {
@@ -125,10 +130,14 @@ const vueMemoContent = {
                     <pre>{{text}}</pre><br>
                     {{timesince}}
                     <div class="tooltiptext">
-                        <b>메모 ID</b> {{id}}<br>
-                        <b>수정됨</b> {{timefull}}<br>
-                        <span class="link" @click="$emit('edit')">수정</span>
-                        <span class="link" @click="$emit('remove')">삭제</span>
+                        <div>
+                            <i class="fas fa-edit link" @click="$emit('edit')" style="margin-right: 10px"></i>
+                            <i class="fas fa-trash link" @click="$emit('remove')"></i>
+                            <b style="float: right">ID {{id}}</b>
+                        </div>
+                        <div>
+                            <span>{{timefull}}</span>
+                        </div>
                     </div>
                 </div>
             `,

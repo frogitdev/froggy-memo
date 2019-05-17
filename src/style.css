@@ -18,15 +18,14 @@ body {
     position: absolute;
     z-index: 1;
     border: 1px solid lightgray;
-    background-color: white;
-    text-align: center;
     padding: 10px;
+    background-color: white;
+    color: #333;
+    cursor: default;
 }
 
 .link {
     cursor: pointer;
-    background-color: black;
-    color: white;
 }
 
 textarea:focus, input:focus {
@@ -42,6 +41,7 @@ textarea:focus, input:focus {
 }
 
 main {
+    display: block;
     margin: 36px 0;
     padding: 36px;
     min-width: 250px;
@@ -54,8 +54,29 @@ main {
 }
 
 #header {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
     margin: 10px;
+    background-color: white;
     font-size: 18px;
+}
+
+#icon-area {
+    position: absolute;
+    display: flex;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    margin: 10px 0;
+    width: 100px;
+    height: 50px;
+
+    align-items: center;
+    justify-content: space-around;
+}
+#icon-area i {
+    color: lightgray;
 }
 
 #title-field, #text-field {
@@ -84,6 +105,9 @@ main {
     font-family: inherit;
     
     transition: all 1s;
+}
+#btn-area {
+    padding: 10px 0;
 }
 
 #memo-list {
