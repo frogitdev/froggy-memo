@@ -1,5 +1,13 @@
 var db
 
+function initLocalStorage() {
+    if (!localStorage.getItem('configured')) {
+        for (i in init_settings) {
+            localStorage.setItem(i, init_settings[i])
+        }
+    }
+}
+
 function initDB() {
     return new Promise(function (resolve, reject) {
         if (!window.indexedDB) {
@@ -24,9 +32,7 @@ function initDB() {
             
             var db = event.target.result
             var objectStore = db.createObjectStore('memodata', {keyPath: 'id'})
-        
-            const init_memodata = [{id:0, title:'', text:'TIP - 상단의 입력 상자를 이용해 메모를 생성하세요.\n메모 위에 마우스를 올려 수정 또는 삭제할 수 있습니다.', time:new Date(2019, 0, 1, 0, 0, 0)}]
-        
+                
             for (var i in init_memodata) {
                 objectStore.add(init_memodata[i])
             }

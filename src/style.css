@@ -6,8 +6,8 @@ body {
     display: flex;
     justify-content: center;
     
-    background-color: #FAACA8;
-    background: linear-gradient(0deg, #FAACA8 0%, #DDD6F3 100%);
+    background-color: #dde;
+    background: linear-gradient(to bottom, #dde, #ded);
     background-attachment: fixed;
     
     font-family: "Noto Sans KR", sans-serif;
@@ -58,6 +58,7 @@ main {
     position: sticky;
     top: 0;
     margin: 10px;
+    z-index: 2;
     background-color: white;
     font-size: 18px;
 }
@@ -67,9 +68,9 @@ main {
     display: flex;
     top: 0;
     right: 0;
-    z-index: 1;
+    z-index: 3;
     margin: 10px 0;
-    width: 100px;
+    width: 30px;
     height: 50px;
 
     align-items: center;
@@ -115,8 +116,7 @@ main {
 }
 
 .memo-item {
-    display: inline-block;
-    margin: 10px;    
+    margin: 10px;
     padding: 10px;
     min-width: 100px;
     max-width: 100%;

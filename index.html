@@ -17,20 +17,24 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <link rel="stylesheet" href="./src/style.css">
     <script defer src="https://unpkg.com/vue@2.6.10/dist/vue.min.js"></script>
-    <!-- <script defer src="https://unpkg.com/vue@2.6.10/dist/vue.js"></script>   -->
+    <!-- <script defer src="https://unpkg.com/vue@2.6.10/dist/vue.js"></script> -->
+    <script defer src="./src/initData.js"></script>
     <script defer src="./src/initDB.js"></script>
     <script defer src="./src/controlDB.js"></script>
     <script defer src="./src/vueMemo.js"></script>
+    <script defer src="./src/vueSettings.js"></script>
     <script defer src="./src/main.js"></script>
 </head>
 <body>
     <main>
         <div id="header">
-            <!-- <div id="icon-area" :style="style.iconArea">
-                <i class="fas fa-eye link" @click=""></i>
-                <i class="fas fa-sort-amount-down link" @click=""></i>
-                <i class="fas fa-cog link" @click=""></i>
-            </div> UNDER CONSTRUCTION-->
+            <div id="icon-area" :style="style.iconArea">
+                <i class="fas fa-list-ul fa-fw link" v-if="style.memoItem.display=='inline-block'" @click="changeSetting('setting_viewType', 'block')"></i>
+                <i class="fas fa-grip-vertical fa-fw link" v-if="style.memoItem.display=='block'" @click="changeSetting('setting_viewType', 'inline-block')"></i>
+
+                <!-- <i class="fas fa-sort-amount-down link" @click=""></i>
+                <i class="fas fa-cog link" @click=""></i> -->
+            </div>
             <input id="title-field" type="text" v-if="titleField!='' || textField!=''" v-model="titleField" placeholder="제목">
             <transition name="text-field">
             <textarea id="text-field" v-model="textField" :style="style.textField" placeholder="새로운 메모 . ."></textarea>
@@ -42,12 +46,12 @@
         </div>
         <div id="memo-list">
             <transition-group name="memo-list" tag="div">
-                <memo-item class="memo-item" v-for="item in items" :key="item.id" :id="item.id" :title="item.title" :text="item.text" :timesince="getTimesince(item.time)" :timefull="convertTime(item.time)" @edit="editItem(item)" @remove="removeItem(item.id)" onclick="void(0)"></memo-item>
+                <memo-item class="memo-item" v-for="item in items" :style="style.memoItem" :key="item.id" :id="item.id" :title="item.title" :text="item.text" :timesince="getTimesince(item.time)" :timefull="convertTime(item.time)" @edit="editItem(item)" @remove="removeItem(item.id)" onclick="void(0)"></memo-item>
             </transition-group>
         </div>
         <div id="credit">
             <a href="https://github.com/frogitdev/froggy-memo" target="_blank">GitHub Repository</a><br>
-            <b>FroggyMemo</b> BETA 0.1.03<br>
+            <b>FroggyMemo</b> BETA 0.1.4<br>
             (C) <a href="http://frogit.xyz" target="_blank">FrogIT</a>. Licensed under the MIT License<br>
         </div>
     </main>

@@ -16,10 +16,20 @@ const vueMemoContent = {
             },
             textField: {
                 height: '50px'
+            },
+            memoItem: {
+                display: ''
             }
         }
     },
     methods: {
+        loadSetting: function() {
+            this.style.memoItem.display = localStorage.getItem('setting_viewType')
+        },
+        changeSetting: function(key, value) {
+            localStorage.setItem(key, value)
+            this.loadSetting()
+        },
         readItem: function() {
             dbControlRead('memodata').then(resolvedItems => {
                 this.items = resolvedItems
