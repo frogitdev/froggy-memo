@@ -1,6 +1,10 @@
-body {
-    margin: 0;
+/* ROOT ELEMENTS */
 
+html, body {
+    margin: 0;
+}
+
+#screen {
     min-height: 100vh;
     
     display: flex;
@@ -12,6 +16,9 @@ body {
     
     font-family: "Noto Sans KR", sans-serif;
 }
+
+
+/* CLASSES */
 
 .tooltiptext {
     display: none;
@@ -34,13 +41,58 @@ textarea:focus, input:focus {
 
 .btn {
     padding: 10px;
-    border: none;
-    border-left: 5px solid lightgray;
+    -webkit-appearance: none;
+    border: 1px solid #dde;
+    border-radius: 4px;
+    background-color: white;
     font-size: 1em;
     cursor: pointer;
 }
 
-main {
+.modal-mask {
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;    
+}
+
+.modal-container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.tab-buttons {
+    border-radius: 10px 10px 0 0;
+    padding-left: 10px;
+    background-color: #344;
+}
+.tab-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    color: white;
+}
+.tab-active {
+    border-bottom: 4px solid white;
+    font-weight: bold;
+}
+
+.tab-page {
+    padding: 36px;
+    min-height: 300px;
+    max-height: 500px;
+}
+
+
+/* MAIN ELEMENTS */
+
+#main {
     display: block;
     margin: 36px 0;
     padding: 36px;
@@ -51,6 +103,8 @@ main {
     background-color: white;
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
     border-radius: 10px;
+    
+    transition: filter .7s ease;
 }
 
 #header {
@@ -70,7 +124,7 @@ main {
     right: 0;
     z-index: 3;
     margin: 10px 0;
-    width: 30px;
+    width: 70px;
     height: 50px;
 
     align-items: center;
@@ -111,8 +165,8 @@ main {
     padding: 10px 0;
 }
 
-#memo-list {
-    margin-bottom: 100px;
+#btn-area input {
+    margin-right: 10px;
 }
 
 .memo-item {
@@ -137,24 +191,19 @@ main {
     display: block;
 }
 
-#credit {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    margin: 20px;
-    padding: 10px;
-    height: 64px;
-
-    text-align: right;
-    font-size: 14px;
-    color: darkslategray;
+#settings-modal {
+    width: 50vw;
 }
-#credit a {
+
+#settings-inf a {
     color: lightcoral;
 }
 
+
+/* MEDIA RULES */
+
 @media screen and (max-width: 700px) {
-    main {
+    #main {
         width: 100%;
         padding: 18px;
     }
@@ -162,7 +211,18 @@ main {
     #header, .memo-item {
         margin: 5px;
     }
+    
+    #settings-modal {
+        width: 100%;
+    }
+
+    .tab-page {
+        padding: 18px;
+    }    
 }
+
+
+/* VUE TRANSITIONS */
 
 .memo-list-enter, .memo-list-leave-to {
     opacity: 0;

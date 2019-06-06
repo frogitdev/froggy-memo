@@ -4,12 +4,7 @@ window.onload = function() {
     initDB().then(mode => {
         switch(mode) {
             case 'continue':
-                var vueMemo = new Vue(vueMemoContent)
-                vueMemo.loadSetting()
-                vueMemo.readItem()
-                window.addEventListener('focus', function() {
-                    vueMemo.readItem()
-                })
+                new Vue(vueMemoContent)
                 break
             case 'destroy':
                 break

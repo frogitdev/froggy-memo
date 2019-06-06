@@ -1,8 +1,8 @@
 var db
 
 function initLocalStorage() {
-    if (!localStorage.getItem('configured')) {
-        for (i in init_settings) {
+    for (i in init_settings) {
+        if (!localStorage.getItem(i)) {
             localStorage.setItem(i, init_settings[i])
         }
     }
@@ -10,12 +10,12 @@ function initLocalStorage() {
 
 function initDB() {
     return new Promise(function (resolve, reject) {
-        if (!window.indexedDB) {
-            window.alert('앱 구성 실패: 브라우저가 IndexedDB를 지원하지 않습니다.\n최신 브라우저에서 사용해 주십시오.')
+        if (!indexedDB) {
+            alert('앱 구성 실패: 브라우저가 IndexedDB를 지원하지 않습니다.\n최신 브라우저에서 사용해 주십시오.')
             resolve('destroy')
         }
         
-        var request = window.indexedDB.open('FroggyMemo')
+        var request = indexedDB.open('FroggyMemo')
         
         request.onerror = function(event) {
             alert('앱 구성 실패: 사이트 데이터 접근 권한이 없습니다.')
@@ -37,5 +37,13 @@ function initDB() {
                 objectStore.add(init_memodata[i])
             }
         }
+    })
+}
+
+function resetAll() {
+    return new Promise(function (resolve, reject) {
+        indexedDB.deleteDatabase('FroggyMemo')
+        localStorage.clear()
+        resolve()
     })
 }

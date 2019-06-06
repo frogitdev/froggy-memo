@@ -1,5 +1,5 @@
 const vueMemoContent = {
-    el: 'main',
+    el: '#screen',
     data: {
         items: [],
         nextItemNum: 1,
@@ -7,7 +7,11 @@ const vueMemoContent = {
         titleField: '',
         textField: '',
         btnArea: '생성',
+        showSettings: false,
         style: {
+            main: {
+                filter: 'none'
+            },
             iconArea: {
                 display: 'flex'
             },
@@ -19,23 +23,65 @@ const vueMemoContent = {
             },
             memoItem: {
                 display: ''
+            },
+            memoItemText: {
+                fontSize: ''
             }
+        },
+        settings: {
+            viewType: 'block',
+            language: 'kor',
+            fontSize: '18px'
         }
     },
+    mounted() {
+        Vue.component('memoItem', comp_memoItem)
+        Vue.component('settingsModal', comp_settingsModal)
+
+        this.initSetting()
+        this.readItem()
+
+        window.addEventListener('focus', () => {
+            this.readItem()
+        })
+
+        window.addEventListener('keyup', (event) => {
+            if (event.keyCode === 27) {
+                this.changeSetting()
+                this.showSettings = false
+            }
+        })
+    },
     methods: {
-        loadSetting: function() {
-            this.style.memoItem.display = localStorage.getItem('setting_viewType')
-        },
-        changeSetting: function(key, value) {
-            localStorage.setItem(key, value)
+        initSetting() {
+            this.settings.viewType = localStorage.getItem('setting_viewType')
+            this.settings.fontSize = localStorage.getItem('setting_fontSize')
             this.loadSetting()
         },
-        readItem: function() {
+        changeSetting() {
+            for (i in this.settings) {
+                localStorage.setItem(`setting_${i}`, this.settings[i])
+            }
+            this.loadSetting()
+        },
+        loadSetting() {
+            this.style.memoItem.display = localStorage.getItem('setting_viewType')
+            this.style.memoItemText.fontSize = localStorage.getItem('setting_fontSize')
+        },
+        resetApp() {
+            if (confirm('모든 메모/설정을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) {
+                resetAll().then(() => {
+                    alert('앱이 초기화되었습니다.')
+                    window.location.reload()
+                })
+            }
+        },
+        readItem() {
             dbControlRead('memodata').then(resolvedItems => {
                 this.items = resolvedItems
             })
         },
-        addItem: function(){
+        addItem() {
             if (this.edit) { //EDIT MODE
                 dbControlEdit('memodata', {
                     id: this.edit.id,
@@ -58,7 +104,7 @@ const vueMemoContent = {
                 })
             }
         },
-        editItem: function(item) {
+        editItem(item) {
             if(this.textField) {
                 if(!confirm('입력 필드에 입력중인 내용이 있습니다. 입력중인 내용을 지우고 선택한 메모를 수정하시겠습니까?')) return
             }
@@ -66,17 +112,17 @@ const vueMemoContent = {
             this.textField = item.text
             this.edit = item
         },
-        removeItem: function(id){
+        removeItem(id) {
             dbControlDelete('memodata', id).then(() => {
                 this.readItem()
             })
         },
-        resetField: function() {
+        resetField() {
             this.titleField = ''
             this.textField = ''
             this.edit = ''
         },
-        getTimesince: function(date) {
+        getTimesince(date) {
             var seconds = Math.floor((new Date() - date) / 1000);
             var interval = Math.floor(seconds / 31536000);
             if (interval >= 1) {
@@ -100,20 +146,20 @@ const vueMemoContent = {
             }
             return "방금 전";
         },
-        convertTime: function(time) {
+        convertTime(time) {
             return `${time.getFullYear()} / ${time.getMonth()+1} / ${time.getDate()} ${time.getHours()}시 ${time.getMinutes()}분 ${time.getSeconds()}초`
-        },
+        }
     },
     watch: {
-        items: function() {
+        items() {
             if (this.items.length) {
                 this.nextItemNum = this.items[this.items.length - 1].id + 1                    
             } else {
                 this.nextItemNum = 0
             }
         },
-        textField: function() {
-            if (this.textField == '') {
+        textField() {
+            if ((this.textField == '') && !(this.edit)) {
                 this.style.iconArea.display = 'flex'
                 this.style.btnArea.display = 'none'
                 this.style.textField.height = '50px'
@@ -124,34 +170,19 @@ const vueMemoContent = {
                 this.style.textField.height = '300px'
             }
         },
-        edit: function() {
+        edit() {
             if(this.edit) {
                 this.btnArea = '수정'
             } else {
                 this.btnArea = '생성'
             }
-        }
-    },
-    components: {
-        memoItem: {
-            template: `
-                <div>
-                    <span style="display:block;font-size:1.5em;">{{title}}</span>
-                    <pre>{{text}}</pre><br>
-                    {{timesince}}
-                    <div class="tooltiptext">
-                        <div>
-                            <i class="fas fa-edit link" @click="$emit('edit')" style="margin-right: 10px"></i>
-                            <i class="fas fa-trash link" @click="$emit('remove')"></i>
-                            <b style="float: right">ID {{id}}</b>
-                        </div>
-                        <div>
-                            <span>{{timefull}}</span>
-                        </div>
-                    </div>
-                </div>
-            `,
-            props: ['id', 'title', 'text', 'timesince', 'timefull']
+        },
+        showSettings() {
+            if(this.showSettings) {
+                this.style.main.filter = 'blur(7px)'
+            } else {
+                this.style.main.filter = 'none'
+            }
         }
     }
 }
