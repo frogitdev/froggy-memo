@@ -26,32 +26,32 @@
     <script defer src="./src/main.js"></script>
 </head>
 <body>
-<div id="screen">       
-    <div id="main" :style="style.main">
-        <div id="header">
-            <div id="icon-area" :style="style.iconArea" @click="changeSetting()">
-                <i class="fas fa-list-ul fa-fw link" v-if="settings.viewType=='inline-block'" @click="settings.viewType='block'"></i>
-                <i class="fas fa-grip-vertical fa-fw link" v-if="settings.viewType=='block'" @click="settings.viewType='inline-block'"></i>
+<div id="screen" :class="[settings.nightMode?'dark':'']">
+    <div id="main" class="bgwhite" :class="[showSettings||showNotice?'blur':'']">
+        <p v-if="false">이 앱을 사용하시려면 ECMAScript 6을 지원하는 브라우저가 필요합니다. 권장 브라우저: Chrome, Firefox</p>
+        <div id="header" class="bgwhite" :class="[expandHeader]">
+            <div id="icon-area" @click="changeSetting()">
+                <i class="fas fa-list-ul fa-fw link" v-if="settings.viewType!='list'" @click="settings.viewType='list'"></i>
+                <i class="fas fa-grip-vertical fa-fw link" v-if="settings.viewType=='list'" @click="settings.viewType='tile'"></i>
 
 <!--                <i class="fas fa-sort-amount-down link" @click=""></i>-->
                 <i class="fas fa-cog link" @click="showSettings=true"></i> 
             </div>
-            <input id="title-field" type="text" v-if="titleField!='' || textField!=''" v-model="titleField" placeholder="제목">
-            <transition name="text-field">
-            <textarea id="text-field" v-model="textField" :style="style.textField" placeholder="새로운 메모 . ."></textarea>
-            </transition>
-            <div id="btn-area" :style="style.btnArea">
+            <input id="title-field" type="text" v-if="textField!=''||titleField!=''" v-model="titleField" placeholder="제목">
+            <textarea id="text-field" v-model="textField" placeholder="새로운 메모 . ."></textarea>
+            <div id="btn-area">
                 <input class="btn" type="button" style="background-color: rgba(64,128,240,.1)" @click="addItem()" :value="btnArea">
                 <input class="btn" type="button" @click="resetField()" value="취소">
             </div>
         </div>
         <div id="memo-list">
             <transition-group name="memo-list" tag="div">
-                <memo-item class="memo-item" v-for="item in items" :style="style.memoItem" :key="item.id" :id="item.id" :title="item.title" :text="item.text" :timesince="getTimesince(item.time)" :timefull="convertTime(item.time)" :styletext="style.memoItemText" @edit="editItem(item)" @remove="removeItem(item.id)" onclick="void(0)"></memo-item>
+                <memo-item class="memo-item" :class="[settings.viewType, settings.fontSize]" v-for="item in items" :key="item.id" :id="item.id" :title="item.title" :text="item.text" :timesince="getTimesince(item.time)" :timefull="convertTime(item.time)" @edit="editItem(item)" @remove="removeItem(item.id)" onclick="void(0)"></memo-item>
             </transition-group>
         </div>
     </div>
-    <settings-modal v-if="showSettings" :settings="settings" @save="changeSetting()" @resetapp="resetApp()" @close="showSettings = false"></settings-modal>
+    <settings-modal v-if="showSettings" :settings="settings" :version="version" @save="changeSetting()" @resetapp="resetApp()" @close="showSettings = false"></settings-modal>
+    <notice-modal v-if="showNotice" :version="version" @close="showNotice = false"></notice-modal>
 </div>
 </body>
 </html>

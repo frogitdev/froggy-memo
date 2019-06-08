@@ -4,40 +4,31 @@ const vueMemoContent = {
         items: [],
         nextItemNum: 1,
         edit: '',
+
+        expandHeader: '',
         titleField: '',
         textField: '',
         btnArea: '생성',
+
         showSettings: false,
-        style: {
-            main: {
-                filter: 'none'
-            },
-            iconArea: {
-                display: 'flex'
-            },
-            btnArea: {
-                display: 'none'
-            },
-            textField: {
-                height: '50px'
-            },
-            memoItem: {
-                display: ''
-            },
-            memoItemText: {
-                fontSize: ''
-            }
+        showNotice: false,
+
+        version: {
+
         },
         settings: {
-            viewType: 'block',
+            viewType: 'tile',
             language: 'kor',
-            fontSize: '18px'
+            fontSize: 'medium',
+            nightMode: false
         }
     },
     mounted() {
         Vue.component('memoItem', comp_memoItem)
         Vue.component('settingsModal', comp_settingsModal)
+        Vue.component('noticeModal', comp_noticeModal)
 
+        this.checkUpdate()
         this.initSetting()
         this.readItem()
 
@@ -53,20 +44,29 @@ const vueMemoContent = {
         })
     },
     methods: {
+        checkUpdate() {
+            this.version = version_info
+            if (localStorage.getItem('version') != this.version.ver) {
+                this.showNotice = true
+            }
+        },
         initSetting() {
-            this.settings.viewType = localStorage.getItem('setting_viewType')
-            this.settings.fontSize = localStorage.getItem('setting_fontSize')
-            this.loadSetting()
+            var setitem = ['viewType', 'fontSize', 'nightMode']
+            setitem.forEach(i => {
+                var item = localStorage.getItem(`setting_${i}`)
+                if (item=='true') {
+                    this.settings[i] = true
+                } else if (item=='false') {
+                    this.settings[i] = false
+                } else {
+                    this.settings[i] = item
+                }
+            })
         },
         changeSetting() {
             for (i in this.settings) {
                 localStorage.setItem(`setting_${i}`, this.settings[i])
             }
-            this.loadSetting()
-        },
-        loadSetting() {
-            this.style.memoItem.display = localStorage.getItem('setting_viewType')
-            this.style.memoItemText.fontSize = localStorage.getItem('setting_fontSize')
         },
         resetApp() {
             if (confirm('모든 메모/설정을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) {
@@ -160,14 +160,9 @@ const vueMemoContent = {
         },
         textField() {
             if ((this.textField == '') && !(this.edit)) {
-                this.style.iconArea.display = 'flex'
-                this.style.btnArea.display = 'none'
-                this.style.textField.height = '50px'
-            }
-            else {
-                this.style.iconArea.display = 'none'
-                this.style.btnArea.display = 'inline-block'
-                this.style.textField.height = '300px'
+                this.expandHeader = ''
+            } else {
+                this.expandHeader = 'expand'
             }
         },
         edit() {
@@ -175,13 +170,6 @@ const vueMemoContent = {
                 this.btnArea = '수정'
             } else {
                 this.btnArea = '생성'
-            }
-        },
-        showSettings() {
-            if(this.showSettings) {
-                this.style.main.filter = 'blur(7px)'
-            } else {
-                this.style.main.filter = 'none'
             }
         }
     }
