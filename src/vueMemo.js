@@ -62,10 +62,18 @@ const vueMemoContent = {
                     this.settings[i] = item
                 }
             })
+            if (this.settings.nightMode == true) {
+                document.getElementById('body').classList.add('dark')
+            }
         },
         changeSetting() {
             for (i in this.settings) {
                 localStorage.setItem(`setting_${i}`, this.settings[i])
+            }
+            if (this.settings.nightMode == true) {
+                document.getElementById('body').classList.add('dark')
+            } else {
+                document.getElementById('body').classList.remove('dark')                
             }
         },
         resetApp() {

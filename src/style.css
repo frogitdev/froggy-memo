@@ -2,9 +2,11 @@
 
 html, body {
     margin: 0;
-    background-color: #eee;
 }
-#screen.dark html, #screen.dark body {
+body {
+    background-color: #ddd;
+}
+body.dark {
     background-color: #334;
 }
 
