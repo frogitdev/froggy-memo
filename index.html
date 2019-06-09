@@ -27,8 +27,10 @@
 </head>
 <body>
 <div id="screen" :class="[settings.nightMode?'dark':'']">
+    <div id="splash" class="modal-mask" v-if="!items">
+            <p>이 앱을 사용하시려면 ECMAScript 6 및 indexedDB를 지원하는 브라우저가 필요합니다.<br>권장 브라우저: Chrome, Firefox</p>
+    </div>
     <div id="main" class="bgwhite" :class="[showSettings||showNotice?'blur':'']">
-        <p v-if="false">이 앱을 사용하시려면 ECMAScript 6을 지원하는 브라우저가 필요합니다. 권장 브라우저: Chrome, Firefox</p>
         <div id="header" class="bgwhite" :class="[expandHeader]">
             <div id="icon-area" @click="changeSetting()">
                 <i class="fas fa-list-ul fa-fw link" v-if="settings.viewType!='list'" @click="settings.viewType='list'"></i>

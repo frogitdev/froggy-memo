@@ -2,6 +2,10 @@
 
 html, body {
     margin: 0;
+    background-color: #eee;
+}
+#screen.dark html, #screen.dark body {
+    background-color: #334;
 }
 
 #screen {
@@ -27,7 +31,7 @@ html, body {
     width: 10px;
 }
 ::-webkit-scrollbar-track {
-    background: #fff;
+    background: none;
 }
 ::-webkit-scrollbar-thumb {
     border-radius: 4px;
@@ -114,9 +118,11 @@ textarea:focus, input:focus {
     cursor: pointer;
 }
 .tab-active {
-    border-bottom: 4px solid #333;
+    border-bottom: 4px solid;
+    border-bottom-color: #333;
     font-weight: bold;
 }
+#screen.dark .tab-active { border-bottom-color: #eee; }
 
 .tab-page {
     min-height: 300px;
@@ -133,6 +139,18 @@ textarea:focus, input:focus {
 
 
 /* MAIN ELEMENTS */
+
+#splash {
+    background: #bbc;
+}
+#splash p {
+    color: #bbc;
+    transition: color .1s;
+    transition-delay: 3s;
+}
+#splash:hover p {
+    color: #000;
+}
 
 #main {
     display: block;

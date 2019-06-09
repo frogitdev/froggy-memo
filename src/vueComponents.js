@@ -77,6 +77,11 @@ const comp_settingsModal = {
                                 <p>{{version.ver}}</p>
                                 <pre>{{version.desc}}</pre>
                             </div>
+                            <div class="tab-content bgwhite">
+                                <h2>고객 센터</h2>
+                                <p>여러분의 소중한 의견이 개발에 도움이 됩니다.</p>
+                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe6vg4eT6dBfzz6Lu7SFn9GPK94R4o8ZSHEbSNGg5fiauKUPw/viewform?usp=sf_link" target="_blank">의견 남기기</a><br>
+                            </div>
                         </div>
                     </div>
                 </div>
