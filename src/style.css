@@ -86,6 +86,44 @@ textarea:focus, input:focus {
     color: #eee;
 }
 
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+.switch input {
+    display: none;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ddd;
+    transition: .5s;
+    border-radius: 30px;
+}
+.slider:before {
+    content: "";
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .5s;
+    border-radius: 50%;
+}
+input:checked + .slider {
+    background-color: #779;
+}
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
 .modal-mask {
     position: fixed;
     z-index: 10;

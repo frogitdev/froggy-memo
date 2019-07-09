@@ -5,10 +5,12 @@ const vueMemoContent = {
         nextItemNum: 1,
         edit: '',
 
-        expandHeader: '',
-        titleField: '',
-        textField: '',
-        btnArea: '생성',
+        header: {
+            expand: '',
+            title: '',
+            text: '',
+            btn: ''
+        },
 
         showSettings: false,
         showNotice: false,
@@ -18,16 +20,14 @@ const vueMemoContent = {
         },
         settings: {
             viewType: 'tile',
-            language: 'kor',
             fontSize: 'medium',
             nightMode: false
+        },
+        l: {
+
         }
     },
     mounted() {
-        Vue.component('memoItem', comp_memoItem)
-        Vue.component('settingsModal', comp_settingsModal)
-        Vue.component('noticeModal', comp_noticeModal)
-
         this.checkUpdate()
         this.initSetting()
         this.readItem()
@@ -39,15 +39,18 @@ const vueMemoContent = {
         window.addEventListener('keyup', (event) => {
             if (event.keyCode === 27) {
                 this.changeSetting()
-                this.showSettings = false
+                this.modal('settings', false)
             }
         })
+
+        this.l = lang
+        this.header.btn = this.l.CREATE
     },
     methods: {
         checkUpdate() {
             this.version = version_info
             if (localStorage.getItem('version') != this.version.ver) {
-                this.showNotice = true
+                this.modal('notice', true)
             }
         },
         initSetting() {
@@ -77,9 +80,9 @@ const vueMemoContent = {
             }
         },
         resetApp() {
-            if (confirm('모든 메모/설정을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) {
+            if (confirm(this.l.APP_RESET_CONFIRM)) {
                 resetAll().then(() => {
-                    alert('앱이 초기화되었습니다.')
+                    alert(this.l.APP_RESET_OK)
                     window.location.reload()
                 })
             }
@@ -93,8 +96,8 @@ const vueMemoContent = {
             if (this.edit) { //EDIT MODE
                 dbControlEdit('memodata', {
                     id: this.edit.id,
-                    title: this.titleField,
-                    text: this.textField,
+                    title: this.header.title,
+                    text: this.header.text,
                     time: new Date()
                 }).then(() => {
                     this.resetField()
@@ -103,8 +106,8 @@ const vueMemoContent = {
             } else { //NEW MODE
                 dbControlAdd('memodata', {
                     id: this.nextItemNum,
-                    title: this.titleField,
-                    text: this.textField,
+                    title: this.header.title,
+                    text: this.header.text,
                     time: new Date()
                 }).then(() => {
                     this.resetField()
@@ -113,11 +116,11 @@ const vueMemoContent = {
             }
         },
         editItem(item) {
-            if(this.textField) {
-                if(!confirm('입력 필드에 입력중인 내용이 있습니다. 입력중인 내용을 지우고 선택한 메모를 수정하시겠습니까?')) return
+            if(this.header.text) {
+                if(!confirm(this.l.EDIT_CONFIRM)) return
             }
-            this.titleField = item.title
-            this.textField = item.text
+            this.header.title = item.title
+            this.header.text = item.text
             this.edit = item
         },
         removeItem(id) {
@@ -126,36 +129,19 @@ const vueMemoContent = {
             })
         },
         resetField() {
-            this.titleField = ''
-            this.textField = ''
+            this.header.title = ''
+            this.header.text = ''
             this.edit = ''
         },
-        getTimesince(date) {
-            var seconds = Math.floor((new Date() - date) / 1000);
-            var interval = Math.floor(seconds / 31536000);
-            if (interval >= 1) {
-                return interval + "년 전";
+        modal(name, action) {
+            switch(name) {
+                case 'settings':
+                    this.showSettings = action
+                    break
+                case 'notice':
+                    this.showNotice = action
+                    break
             }
-            interval = Math.floor(seconds / 2592000);
-            if (interval >= 1) {
-                return interval + "개월 전";
-            }
-            interval = Math.floor(seconds / 86400);
-            if (interval >= 1) {
-                return interval + "일 전";
-            }
-            interval = Math.floor(seconds / 3600);
-            if (interval >= 1) {
-                return interval + "시간 전";
-            }
-            interval = Math.floor(seconds / 60);
-            if (interval >= 1) {
-                return interval + "분 전";
-            }
-            return "방금 전";
-        },
-        convertTime(time) {
-            return `${time.getFullYear()} / ${time.getMonth()+1} / ${time.getDate()} ${time.getHours()}시 ${time.getMinutes()}분 ${time.getSeconds()}초`
         }
     },
     watch: {
@@ -166,19 +152,53 @@ const vueMemoContent = {
                 this.nextItemNum = 0
             }
         },
-        textField() {
-            if ((this.textField == '') && !(this.edit)) {
-                this.expandHeader = ''
-            } else {
-                this.expandHeader = 'expand'
-            }
-        },
         edit() {
             if(this.edit) {
-                this.btnArea = '수정'
+                this.header.btn = this.l.EDIT
             } else {
-                this.btnArea = '생성'
+                this.header.btn = this.l.CREATE
+            }
+        },
+        'header.text': function() {
+            if ((this.header.text == '') && !(this.edit)) {
+                this.header.expand = ''
+            } else {
+                this.header.expand = 'expand'
             }
         }
     }
+}
+
+function pad(n, width) {
+    n = n + ''
+    return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n
+}
+
+function getTimeSince(date) {
+    var seconds = Math.floor((new Date() - date) / 1000)
+    var interval = Math.floor(seconds / 31536000)
+    if (interval >= 1) {
+        return interval + lang.YEAR + ' ' + lang.AGO
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval >= 1) {
+        return interval + lang.MONTH + ' ' + lang.AGO
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval >= 1) {
+        return interval + lang.DAY + ' ' + lang.AGO
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval >= 1) {
+        return interval + lang.HOUR + ' ' + lang.AGO
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval >= 1) {
+        return interval + lang.MIN + ' ' + lang.AGO
+    }
+    return lang.JUSBEF
+}
+
+function convertTime(time) {
+    return `${time.getFullYear()}-${time.getMonth()+1}-${time.getDate()} ${pad(time.getHours(), 2)}:${pad(time.getMinutes(), 2)}:${pad(time.getSeconds(), 2)}`
 }

@@ -6,8 +6,8 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">   
     <meta name="author" content="FrogIT">
-    <meta name="description" content="편리한 메모 앱 FroggyMemo">
-    <meta property="og:description" content="편리한 메모 앱 FroggyMemo">
+    <meta name="description" content="Web Memo App FroggyMemo">
+    <meta property="og:description" content="Web Memo App FroggyMemo">
     <meta property="og:title" content="FroggyMemo">
     <meta property="og:image" content="./src/img/og.png">
     <title>FroggyMemo</title>
@@ -19,41 +19,22 @@
     <script defer src="https://unpkg.com/vue@2.6.10/dist/vue.min.js"></script>
     <!-- <script defer src="https://unpkg.com/vue@2.6.10/dist/vue.js"></script> -->
     <script defer src="./src/initData.js"></script>
-    <script defer src="./src/initDB.js"></script>
     <script defer src="./src/controlDB.js"></script>
-    <script defer src="./src/vueMemo.js"></script>
     <script defer src="./src/vueComponents.js"></script>
+    <script defer src="./src/vueMemo.js"></script>
     <script defer src="./src/main.js"></script>
 </head>
 <body id="body">
 <div id="screen" :class="[settings.nightMode?'dark':'']">
     <div id="splash" class="modal-mask" v-if="!items">
-            <p>이 앱을 사용하시려면 ECMAScript 6 및 indexedDB를 지원하는 브라우저가 필요합니다.<br>권장 브라우저: Chrome, Firefox</p>
+            <p>
+                이 앱을 사용하시려면 ECMAScript 6 및 indexedDB를 지원하는 브라우저가 필요합니다.<br>권장 브라우저: Chrome, Firefox<br><br>
+                ECMAScript 6 and indexedDB are required to run this app.<br>Recommended Browser: Chrome, Firefox
+            </p>
     </div>
-    <div id="main" class="bgwhite" :class="[showSettings||showNotice?'blur':'']">
-        <div id="header" class="bgwhite" :class="[expandHeader]">
-            <div id="icon-area" @click="changeSetting()">
-                <i class="fas fa-list-ul fa-fw link" v-if="settings.viewType!='list'" @click="settings.viewType='list'"></i>
-                <i class="fas fa-grip-vertical fa-fw link" v-if="settings.viewType=='list'" @click="settings.viewType='tile'"></i>
-
-<!--                <i class="fas fa-sort-amount-down link" @click=""></i>-->
-                <i class="fas fa-cog link" @click="showSettings=true"></i> 
-            </div>
-            <input id="title-field" type="text" v-if="textField!=''||titleField!=''" v-model="titleField" placeholder="제목">
-            <textarea id="text-field" v-model="textField" placeholder="새로운 메모 . ."></textarea>
-            <div id="btn-area">
-                <input class="btn" type="button" style="background-color: rgba(64,128,240,.1)" @click="addItem()" :value="btnArea">
-                <input class="btn" type="button" @click="resetField()" value="취소">
-            </div>
-        </div>
-        <div id="memo-list">
-            <transition-group name="memo-list" tag="div">
-                <memo-item class="memo-item" :class="[settings.viewType, settings.fontSize]" v-for="item in items" :key="item.id" :id="item.id" :title="item.title" :text="item.text" :timesince="getTimesince(item.time)" :timefull="convertTime(item.time)" @edit="editItem(item)" @remove="removeItem(item.id)" onclick="void(0)"></memo-item>
-            </transition-group>
-        </div>
-    </div>
-    <settings-modal v-if="showSettings" :settings="settings" :version="version" @save="changeSetting()" @resetapp="resetApp()" @close="showSettings = false"></settings-modal>
-    <notice-modal v-if="showNotice" :version="version" @close="showNotice = false"></notice-modal>
+    <memo :class="[showSettings||showNotice?'blur':'']" :l="l" :items="items" :header="header" :settings="settings" @add-item="addItem" @reset-field="resetField" @change-setting="changeSetting" @modal="modal" @edit-item="editItem" @remove-item="removeItem"></memo>
+    <settings-modal v-if="showSettings" :l="l" :settings="settings" :version="version" @save="changeSetting" @resetapp="resetApp" @close="modal('settings', false)"></settings-modal>
+    <notice-modal v-if="showNotice" :l="l" :version="version" @close="modal('notice', false)"></notice-modal>
 </div>
 </body>
 </html>
