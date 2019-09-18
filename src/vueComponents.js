@@ -12,10 +12,18 @@ const comp_headerArea = {
     template: `
         <div id="header" class="bgwhite" :class="[header.expand]">
         <div id="icon-area" @click="$emit('change-setting')">
-            <i class="fas fa-list-ul fa-fw link" v-if="settings.viewType!='list'" @click="settings.viewType='list'"></i>
-            <i class="fas fa-grip-vertical fa-fw link" v-if="settings.viewType=='list'" @click="settings.viewType='tile'"></i>
-            <!--<i class="fas fa-sort-amount-down link" @click=""></i>-->
-            <i class="fas fa-cog link" @click="$emit('modal', 'settings', true)"></i> 
+            <i class="fas fa-list-ul fa-fw link icon-area-icon" v-if="settings.viewType!='list'" @click="settings.viewType='list'"></i>
+            <i class="fas fa-grip-vertical fa-fw link icon-area-icon" v-if="settings.viewType=='list'" @click="settings.viewType='tile'"></i>
+            <div id="icon-area-sort">
+                <i class="fas fa-sort-amount-down link icon-area-icon"></i>
+                <div class="dropdown">
+                    <sortbtn class="sortbtn" method="id" :description="l.SORT_ID" :iconasc="'fa-sort-numeric-down'" :icondesc="'fa-sort-numeric-up'" :settings="settings"></sortbtn>
+                    <sortbtn class="sortbtn" method="time" :description="l.SORT_TIME" :iconasc="'fa-sort-numeric-down'" :icondesc="'fa-sort-numeric-up'" :settings="settings"></sortbtn>
+                    <sortbtn class="sortbtn" method="title" :description="l.SORT_TITLE" :iconasc="'fa-sort-alpha-down'" :icondesc="'fa-sort-alpha-up'" :settings="settings"></sortbtn>
+                    <sortbtn class="sortbtn" method="text" :description="l.SORT_TEXT" :iconasc="'fa-sort-amount-up'" :icondesc="'fa-sort-amount-down'" :settings="settings"></sortbtn>
+                </div>
+            </div>
+            <i class="fas fa-cog link icon-area-icon" @click="$emit('modal', 'settings', true)"></i>
         </div>
         <input id="title-field" type="text" v-if="header.text!=''||header.title!=''" v-model="header.title" :placeholder="l.TITLE">
         <textarea id="text-field" v-model="header.text" :placeholder="l.NEW_MEMO"></textarea>
@@ -28,11 +36,40 @@ const comp_headerArea = {
     props: ['l', 'header', 'settings']
 }
 
+const comp_sortBtn = {
+    template: `
+        <div @click="changeMethod()">
+            <span class="sortbtn-text link" :style="{color: fontstyle}">{{description}}</span>
+            <span class="sortbtn-icon" v-if="settings.sortmethod==method">
+                <i class="fas fa-fw link" :class="iconasc" v-if="settings.sortorder!='desc'" @click="changeOrder('desc')"></i>
+                <i class="fas fa-fw link" :class="icondesc" v-if="settings.sortorder!='asc'" @click="changeOrder('asc')"></i>
+            </span>
+        </div>
+    `,
+    methods: {
+        changeMethod() {
+            if (this.settings.sortmethod != this.method) {
+                this.settings.sortmethod = this.method
+                this.settings.sortorder = 'asc'
+            }
+        },
+        changeOrder(order) {
+            this.settings.sortorder = order
+        }
+    },
+    computed: {
+        fontstyle() {
+            return this.settings.sortmethod==this.method ? '#000' : ''
+        }
+    },
+    props: ['l', 'method', 'description', 'iconasc', 'icondesc', 'settings']
+}
+
 const comp_memoList = {
     template: `
         <div id="memo-list">
             <transition-group name="memo-list" tag="div">
-                <memo-item class="memo-item" :class="[settings.viewType, settings.fontSize]" v-for="item in items" :key="item.id" :item="item" @edit="$emit('edit-item', item)" @remove="$emit('remove-item', item.id)" onclick="void(0)"></memo-item>
+                <memo-item class="memo-item bgwhite" :class="[settings.viewType, settings.fontSize]" v-for="item in items" :key="item.id" :item="item" @edit="$emit('edit-item', item)" @remove="$emit('remove-item', item.id)" onclick="void(0)"></memo-item>
             </transition-group>
         </div>
     `,
@@ -48,7 +85,8 @@ const comp_memoItem = {
         <div class="tooltiptext bgwhite">
             <div>
                 <i class="fas fa-edit link" @click="$emit('edit')" style="margin-right: 10px"></i>
-                <i class="fas fa-trash link" @click="$emit('remove')"></i>
+                <i class="fas fa-trash link" @click="setRemoveStatus()" style="margin-right: 10px"></i>
+                <i class="fas fa-check-circle link" v-if="removestatus" @click="$emit('remove')"></i>
                 <b style="float: right">ID {{item.id}}</b>
             </div>
             <div>
@@ -57,7 +95,16 @@ const comp_memoItem = {
         </div>
     </div>
     `,
-    props: ['item'],
+    data() {
+        return {
+            removestatus: false
+        }
+    },
+    methods: {
+        setRemoveStatus() {
+            this.removestatus = true
+        }
+    },
     computed: {
         timesince() {
             return getTimeSince(this.item.time)
@@ -65,7 +112,8 @@ const comp_memoItem = {
         timefull() {
             return convertTime(this.item.time)
         }
-    }
+    },
+    props: ['l', 'item']
 }
 
 
@@ -198,6 +246,7 @@ const comp_noticeModal = {
 
 Vue.component('memo', comp_memo)
     Vue.component('headerArea', comp_headerArea)
+        Vue.component('sortbtn', comp_sortBtn)
     Vue.component('memoList', comp_memoList)
         Vue.component('memoItem', comp_memoItem)
 Vue.component('settingsModal', comp_settingsModal)

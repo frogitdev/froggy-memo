@@ -177,6 +177,16 @@ input:checked + .slider:before {
     border-radius: 20px;
 }
 
+.dropdown {
+    display: none;
+    position: absolute;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    z-index: 1;
+}
+
 
 /* MAIN ELEMENTS */
 
@@ -224,15 +234,33 @@ input:checked + .slider:before {
     right: 0;
     z-index: 3;
     margin: 10px 0;
-    width: 70px;
+    width: 100px;
     height: 50px;
 
     align-items: center;
     justify-content: space-around;
 }
 #header.expand #icon-area { display: none; }
-#icon-area i {
+#icon-area-sort {
+    position: relative;
+}
+#icon-area-sort .dropdown {
+    left: -150px;
+    width: 150px;
+}
+#icon-area-sort:hover .dropdown {
+    display: block;
+}
+#icon-area .icon-area-icon {
     color: lightgray;
+}
+
+.sortbtn {
+    display: flex;
+    justify-content: space-between;
+}
+.sortbtn-text, .sortbtn-icon i {
+    color: darkgray;
 }
 
 #title-field, #text-field {

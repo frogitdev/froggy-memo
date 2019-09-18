@@ -1,6 +1,7 @@
 const vueMemoContent = {
     el: '#screen',
     data: {
+        rowitems: [],
         items: [],
         nextItemNum: 1,
         edit: '',
@@ -21,7 +22,9 @@ const vueMemoContent = {
         settings: {
             viewType: 'tile',
             fontSize: 'medium',
-            nightMode: false
+            nightMode: false,
+            sortmethod: 'time',
+            sortorder: 'desc'
         },
         l: {
 
@@ -54,7 +57,7 @@ const vueMemoContent = {
             }
         },
         initSetting() {
-            var setitem = ['viewType', 'fontSize', 'nightMode']
+            var setitem = ['viewType', 'fontSize', 'nightMode', 'sortmethod', 'sortorder']
             setitem.forEach(i => {
                 var item = localStorage.getItem(`setting_${i}`)
                 if (item=='true') {
@@ -78,6 +81,7 @@ const vueMemoContent = {
             } else {
                 document.getElementById('body').classList.remove('dark')                
             }
+            this.readItem()
         },
         resetApp() {
             if (confirm(this.l.APP_RESET_CONFIRM)) {
@@ -89,8 +93,24 @@ const vueMemoContent = {
         },
         readItem() {
             dbControlRead('memodata').then(resolvedItems => {
-                this.items = resolvedItems
+                this.rowitems = resolvedItems
+                this.items = Array.prototype.slice.call(resolvedItems).sort((a, b) => {
+                    const isdesc = (this.settings.sortorder=='desc') ? true : false
+                    return this.sortItem(this.settings.sortmethod, isdesc, a, b)
+                })
             })
+        },
+        sortItem(method, desc, a, b) {
+            switch(method) {
+                case 'id':
+                    return (desc ? a.id > b.id : a.id < b.id) ? -1 : 1
+                case 'title':
+                    return (desc ? a.title > b.title : a.title < b.title) ? -1 : 1
+                case 'text':
+                    return (desc ? a.text.length > b.text.length : a.text.length < b.text.length) ? -1 : 1
+                case 'time':
+                    return (desc ? new Date(a.time) > new Date(b.time) : new Date(a.time) < new Date(b.time)) ? -1 : 1
+            }
         },
         addItem() {
             if (this.edit) { //EDIT MODE
@@ -146,8 +166,8 @@ const vueMemoContent = {
     },
     watch: {
         items() {
-            if (this.items.length) {
-                this.nextItemNum = this.items[this.items.length - 1].id + 1                    
+            if (this.rowitems.length) {
+                this.nextItemNum = this.rowitems[this.rowitems.length - 1].id + 1
             } else {
                 this.nextItemNum = 0
             }
