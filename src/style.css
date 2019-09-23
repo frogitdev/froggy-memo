@@ -236,6 +236,7 @@ input:checked + .slider:before {
     margin: 10px 0;
     width: 100px;
     height: 50px;
+    line-height: 0;
 
     align-items: center;
     justify-content: space-around;
@@ -243,10 +244,12 @@ input:checked + .slider:before {
 #header.expand #icon-area { display: none; }
 #icon-area-sort {
     position: relative;
+    height: 18px;
 }
 #icon-area-sort .dropdown {
     left: -150px;
     width: 150px;
+    line-height: 24px;
 }
 #icon-area-sort:hover .dropdown {
     display: block;

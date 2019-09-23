@@ -1,6 +1,6 @@
 const version_info = {
-    "ver":"BETA 0.4.0",
-    "desc":"[ 변경 사항 ]\n- 정렬 기능 추가 (네 가지 정렬 기준과 오름차순, 내림차순)\n- 실수 삭제 방지 기능 추가"
+    "ver":"BETA 0.4.1",
+    "desc":"[ 오류 수정 ]\n- 아이콘 위치 오류 수정\n- 초기 설정 오류 수정\n- 시간 표시 오류 수정\n- 영어 시간 복수형 추가"
 }
 
 const init_memodata = {
@@ -8,4 +8,4 @@ const init_memodata = {
     kor: [{id:0, title:'', text:'TIP - 상단의 입력 상자를 이용해 메모를 생성하세요.\n메모 위에 마우스를 올리거나 눌러서 수정 또는 삭제할 수 있습니다.', time:new Date(2019, 0, 1, 0, 0, 0)}]
 }
 
-const init_settings = {'configured':true, 'setting_viewType':'tile', 'setting_fontSize':'medium', 'setting_nightMode':false, 'sortmethod':'time', 'sortorder':'desc'}
+const init_settings = {'configured':true, 'setting_viewType':'tile', 'setting_fontSize':'medium', 'setting_nightMode':false, 'setting_sortmethod':'time', 'setting_sortorder':'desc'}

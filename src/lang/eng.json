@@ -39,7 +39,7 @@
     "VER_INFO": "Version Information(Korean)",
     "CUS_SERV": "Customer Service",
     "CUS_SERV_DESC": "Your feedback will be great help for our development",
-    "CUS_SERV_BTN": "Leave Feedback(Korean)",
+    "CUS_SERV_BTN": "Leave Feedback",
     "NOTICE_UPDATE": "Update Information",
     "NOTICE_UPDATE_DESC": "FroggyMemo has updated to version",
     "FAIL_IDB": "Failed to run app: Your browser do not support IndexedDB.\nThis app is able to run in modern browsers.",

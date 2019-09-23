@@ -195,30 +195,37 @@ function pad(n, width) {
 }
 
 function getTimeSince(date) {
-    var seconds = Math.floor((new Date() - date) / 1000)
-    var interval = Math.floor(seconds / 31536000)
-    if (interval >= 1) {
-        return interval + lang.YEAR + ' ' + lang.AGO
+    var sec = Math.floor((new Date() - date) / 1000)
+    var int = Math.floor(sec / 31536000)
+    if (int >= 1) {
+        return int + lang.YEAR + toPlural(int, 's') + ' ' + lang.AGO
     }
-    interval = Math.floor(seconds / 2592000);
-    if (interval >= 1) {
-        return interval + lang.MONTH + ' ' + lang.AGO
+    int = Math.floor(sec / 2592000);
+    if (int >= 1) {
+        return int + lang.MONTH + toPlural(int, 'es') + ' ' + lang.AGO
     }
-    interval = Math.floor(seconds / 86400);
-    if (interval >= 1) {
-        return interval + lang.DAY + ' ' + lang.AGO
+    int = Math.floor(sec / 86400);
+    if (int >= 1) {
+        return int + lang.DAY + toPlural(int, 's') + ' ' + lang.AGO
     }
-    interval = Math.floor(seconds / 3600);
-    if (interval >= 1) {
-        return interval + lang.HOUR + ' ' + lang.AGO
+    int = Math.floor(sec / 3600);
+    if (int >= 1) {
+        return int + lang.HOUR + toPlural(int, 's') + ' ' + lang.AGO
     }
-    interval = Math.floor(seconds / 60);
-    if (interval >= 1) {
-        return interval + lang.MIN + ' ' + lang.AGO
+    int = Math.floor(sec / 60);
+    if (int >= 1) {
+        return int + lang.MIN + toPlural(int, 's') + ' ' + lang.AGO
     }
     return lang.JUSBEF
 }
 
 function convertTime(time) {
     return `${time.getFullYear()}-${time.getMonth()+1}-${time.getDate()} ${pad(time.getHours(), 2)}:${pad(time.getMinutes(), 2)}:${pad(time.getSeconds(), 2)}`
+}
+
+function toPlural(num, text) {
+    if (sl=='eng' && num>1) {
+        return text
+    }
+    return ''
 }
