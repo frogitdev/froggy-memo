@@ -202,7 +202,7 @@ function getTimeSince(date) {
     }
     int = Math.floor(sec / 2592000);
     if (int >= 1) {
-        return int + lang.MONTH + toPlural(int, 'es') + ' ' + lang.AGO
+        return int + lang.MONTH + toPlural(int, 's') + ' ' + lang.AGO
     }
     int = Math.floor(sec / 86400);
     if (int >= 1) {
