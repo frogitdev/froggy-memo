@@ -153,6 +153,20 @@ const comp_settingsModal = {
                                 </label>
                             </div>
                             <div class="tab-content bgwhite">
+                                <h2>{{l.THEME}}</h2>
+                                <div v-if="!settings.nightMode" id="setting-background" class="row va">
+                                    <input type="radio" id="radio-background--whitegrape" value="whitegrape" v-model="settings.background">
+                                    <label for="radio-background--whitegrape"><div class="whitegrape row va ha">{{l.WHITEGRAPE}}</div></label>
+                                    <input type="radio" id="radio-background--coconut" value="coconut" v-model="settings.background">
+                                    <label for="radio-background--coconut"><div class="coconut row va ha">{{l.COCONUT}}</div></label>
+                                    <input type="radio" id="radio-background--peach" value="peach" v-model="settings.background">
+                                    <label for="radio-background--peach"><div class="peach row va ha">{{l.PEACH}}</div></label>
+                                    <input type="radio" id="radio-background--lime" value="lime" v-model="settings.background">
+                                    <label for="radio-background--lime"><div class="lime row va ha">{{l.LIME}}</div></label>
+                                </div>
+                                <div v-if="settings.nightMode">{{l.THEME_DISABLE_DESC}}</div>
+                            </div>
+                            <div class="tab-content bgwhite">
                                 <h2>{{l.TEXT_SIZE}}</h2>
                                 <p>{{l.TEXT_SIZE_DESC}}</p>
                                 <input type="radio" id="radio-font-size--small" value="small" v-model="settings.fontSize">
@@ -181,6 +195,10 @@ const comp_settingsModal = {
                                 <h2>{{l.VER_INFO}}</h2>
                                 <p>{{version.ver}}</p>
                                 <pre>{{version.desc}}</pre>
+                            </div>
+                            <div class="tab-content bgwhite">
+                                <h2>{{l.TECHNOLOGY}}</h2>
+                                <pre>{{l.TECHNOLOGY_DESC}}</pre>
                             </div>
                             <div class="tab-content bgwhite">
                                 <h2>{{l.CUS_SERV}}</h2>

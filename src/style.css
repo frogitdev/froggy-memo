@@ -16,8 +16,9 @@ body.dark {
     display: flex;
     justify-content: center;
 
-    background: #dde linear-gradient(to bottom, #dde, #ded) no-repeat fixed;
-        
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    
     color: #333;
     font-family: "Noto Sans KR", sans-serif;
 }
@@ -28,6 +29,21 @@ body.dark {
 
 
 /* CLASSES */
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+.column {
+    display: flex;
+    flex-direction: row;
+}
+.ha {
+    justify-content: center;
+}
+.va {
+    align-items: center;
+}
 
 ::-webkit-scrollbar {
     width: 10px;
@@ -51,6 +67,11 @@ pre {
     background: #fff;
 }
 #screen.dark .bgwhite { background: #445; }
+
+.whitegrape { background-image: linear-gradient(to bottom, #dde, #ded); }
+.coconut { background-image: linear-gradient(to bottom, rgba(216,241,230,0.46), rgba(233,226,226,0.28)); }
+.peach { background-image: linear-gradient(to top, rgba(248,213,214,1), rgba(243,242,229,1)); }
+.lime { background-image: linear-gradient(to top, #BEDCB9, #F0F4CD); }
 
 .tooltiptext {
     display: none;
@@ -347,6 +368,26 @@ input:checked + .slider:before {
 #notice-modal {
     width: 500px;
     padding: 36px;
+}
+
+#setting-background {
+    max-width: 400px;
+    justify-content: space-between;
+}
+#setting-background input {
+    display: none;
+}
+#setting-background div {
+    width: 70px;
+    height: 70px;
+    border-radius: 15px;
+    transition: transform .5s ease;
+    text-align: center;
+    color: gray;
+}
+#setting-background input:checked+label div {
+    border: 2px solid gray;
+    transform: scale(0.9);
 }
 
 #settings-inf a {

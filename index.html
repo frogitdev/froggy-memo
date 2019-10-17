@@ -25,7 +25,7 @@
     <script defer src="./src/main.js"></script>
 </head>
 <body id="body">
-<div id="screen" :class="[settings.nightMode?'dark':'']">
+<div id="screen" :class="[settings.nightMode?'dark':settings.background]">
     <div id="splash" class="modal-mask" v-if="!items">
             <p>
                 이 앱을 사용하시려면 ECMAScript 6 및 indexedDB를 지원하는 브라우저가 필요합니다.<br>권장 브라우저: Chrome, Firefox<br><br>

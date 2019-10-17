@@ -22,6 +22,7 @@ const vueMemoContent = {
         settings: {
             viewType: 'tile',
             fontSize: 'medium',
+            background: 'whitegrape',
             nightMode: false,
             sortmethod: 'time',
             sortorder: 'desc'
@@ -57,7 +58,7 @@ const vueMemoContent = {
             }
         },
         initSetting() {
-            var setitem = ['viewType', 'fontSize', 'nightMode', 'sortmethod', 'sortorder']
+            var setitem = ['viewType', 'fontSize', 'background', 'nightMode', 'sortmethod', 'sortorder']
             setitem.forEach(i => {
                 var item = localStorage.getItem(`setting_${i}`)
                 if (item=='true') {
